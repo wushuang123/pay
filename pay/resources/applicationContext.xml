@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+  	  http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+  	  http://www.springframework.org/schema/context
+  	  http://www.springframework.org/schema/context/spring-context-4.3.xsd
+  	  http://www.springframework.org/schema/tx
+  	  http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+  	  http://www.springframework.org/schema/aop
+  	  http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+	<context:component-scan base-package="com.xifar.pay">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="jdbcUrl"
+			value="jdbc:mysql://localhost:3306/logistic?allowMultiQueries=true" />
+		<property name="user" value="manager" />
+		<property name="password" value="manager@2015" />
+		<property name="checkoutTimeout" value="6000" />
+		<property name="acquireIncrement" value="1" />
+		<property name="idleConnectionTestPeriod" value="30" />
+		<property name="initialPoolSize" value="20" />
+		<property name="maxIdleTime" value="120" />
+		<property name="maxPoolSize" value="1000" />
+		<property name="minPoolSize" value="3" />
+		<property name="maxConnectionAge" value="120" />
+		<property name="maxStatementsPerConnection" value="3600" />
+	</bean>
+
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- define the SqlSessionFactory -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="typeAliasesPackage" value="com.xifar.pay.model" />
+		<property name="mapperLocations" value="classpath*:mapper/**/*.xml" />
+	</bean>
+
+	<!-- mybatis接口 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.xifar.pay.dao" />
+	</bean>
+
+	<!-- 使用annotation定义事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager"
+		proxy-target-class="true" />
+
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+
+</beans>

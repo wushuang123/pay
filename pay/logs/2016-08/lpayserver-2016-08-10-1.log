@@ -1,0 +1,5 @@
+2016-08-10 16:27:04,892 ERROR http.HttpRequest [main] 发送POST请求出现异常！org.apache.http.conn.HttpHostConnectException: Connect to localhost:8080 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect
+2016-08-10 16:43:12,329 ERROR http.HttpRequest [main] 发送POST请求出现异常！org.apache.http.conn.HttpHostConnectException: Connect to localhost:8080 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect
+2016-08-10 16:47:49,516 ERROR http.HttpRequest [main] 发送POST请求出现异常！java.net.SocketException: Connection reset
+2016-08-10 16:47:49,516 ERROR http.HttpRequest [main] 发送POST请求出现异常！java.net.SocketException: Connection reset
+2016-08-10 16:51:47,665 ERROR http.HttpRequest [main] 发送POST请求出现异常！java.net.SocketException: Connection reset
